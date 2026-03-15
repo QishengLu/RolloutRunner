@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# Databases
+*.db
+*.sqlite
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime data
+data/
+
+# IDE
+.idea/
+.vscode/
+*.swp

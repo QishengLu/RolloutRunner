@@ -1,0 +1,11 @@
+name: deerflow
+cmd: ["/home/nn/SOTA-agents/deer-flow-v2/backend/.venv/bin/python", "agent_runner.py"]
+cwd: /home/nn/SOTA-agents/deer-flow-v2/backend
+# exp_id: deerflow-kimi-k2
+exp_id: deerflow-claude-sonnet-4.6
+# model_name: kimi-k2-0905-preview
+model_name: openai/claude-sonnet-4-6
+agent_type: deerflow
+concurrency: 5
+timeout: 1200
+data_dir: /home/nn/SOTA-agents/RolloutRunner/data

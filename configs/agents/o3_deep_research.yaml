@@ -1,0 +1,11 @@
+name: o3_deep_research
+cmd: ["/home/nn/miniconda3/envs/openai_test/bin/python", "agent_runner_deep_research.py"]
+cwd: /home/nn/SOTA-agents/test/openai_test
+# exp_id: o4_mini_deep_research-o4mini
+exp_id: o3_deep_research-claude-sonnet-4.6
+# model_name: openai/o4-mini-deep-research
+model_name: openai/claude-sonnet-4-6
+agent_type: o4_mini_deep_research
+concurrency: 5
+timeout: 1800
+data_dir: /home/nn/SOTA-agents/RolloutRunner/data

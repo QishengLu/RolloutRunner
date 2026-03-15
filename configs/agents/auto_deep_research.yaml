@@ -1,0 +1,11 @@
+name: auto_deep_research
+cmd: ["/home/nn/SOTA-agents/Auto-Deep-Research/.venv/bin/python", "agent_runner.py"]
+cwd: /home/nn/SOTA-agents/Auto-Deep-Research
+# exp_id: auto_deep_research-kimi-k2
+exp_id: auto_deep_research-claude-sonnet-4.6
+# model_name: kimi-k2-0905-preview
+model_name: openai/claude-sonnet-4-6
+agent_type: auto_deep_research
+concurrency: 5
+timeout: 1200
+data_dir: /home/nn/SOTA-agents/RolloutRunner/data
