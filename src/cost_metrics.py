@@ -99,11 +99,39 @@ def estimate_token_count(trajectory: list[dict], model: str = "kimi-k2") -> dict
 
 # ── Model pricing (USD per 1M tokens) ────────────────────────────────────────
 MODEL_PRICING: dict[str, dict[str, float]] = {
+    # Claude Sonnet 4.5
     "anthropic/claude-sonnet-4.5": {"input": 3.0, "output": 15.0},
     "claude-sonnet-4.5": {"input": 3.0, "output": 15.0},
     "openai/claude-sonnet-4-5-20250929": {"input": 3.0, "output": 15.0},
     "claude-sonnet-4-5-20250929": {"input": 3.0, "output": 15.0},
-    "kimi-k2-0905-preview": {"input": 0.0, "output": 0.0},  # free tier / unknown
+    # Claude Sonnet 4.6
+    "claude-sonnet-4-6": {"input": 3.0, "output": 15.0},
+    "openai/claude-sonnet-4-6": {"input": 3.0, "output": 15.0},
+    # Gemini
+    "gemini-3.1-pro-preview": {"input": 1.25, "output": 10.0},
+    "gemini-3-pro-preview": {"input": 1.25, "output": 10.0},
+    "gemini-2.5-pro": {"input": 1.25, "output": 10.0},
+    "gemini-2.5-flash": {"input": 0.15, "output": 0.6},
+    # GPT
+    "gpt-5.3-chat": {"input": 2.0, "output": 8.0},
+    "gpt-5.2": {"input": 2.0, "output": 8.0},
+    "gpt-5.2-chat": {"input": 2.0, "output": 8.0},
+    "gpt-5": {"input": 2.0, "output": 8.0},
+    "gpt-4o": {"input": 2.5, "output": 10.0},
+    "gpt-4.1": {"input": 2.0, "output": 8.0},
+    # Qwen
+    "qwen3.5-plus": {"input": 0.8, "output": 2.0},
+    "qwen3-max": {"input": 1.6, "output": 6.4},
+    "qwen3-235b-a22b": {"input": 0.8, "output": 2.0},
+    # DeepSeek
+    "deepseek-r1": {"input": 0.55, "output": 2.19},
+    "deepseek-v3.2": {"input": 0.27, "output": 1.1},
+    # Kimi
+    "kimi-k2.5": {"input": 0.6, "output": 2.0},
+    "kimi-k2-0905-preview": {"input": 0.0, "output": 0.0},
+    # Others
+    "grok-4": {"input": 3.0, "output": 15.0},
+    "glm-5": {"input": 0.5, "output": 2.0},
 }
 
 

@@ -7,5 +7,5 @@ exp_id: deepresearchagent-claude-sonnet-4.6
 model_name: openai/claude-sonnet-4-6
 agent_type: deepresearchagent
 concurrency: 5
-timeout: 1500
+timeout: 1800
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data

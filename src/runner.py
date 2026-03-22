@@ -114,11 +114,16 @@ def _parse_last_json(text: str) -> dict | None:
 class AdaptiveConcurrency:
     """AIMD-style adaptive concurrency limiter.
 
-    慢启动（Slow Start）：从 capacity=1 开始，每连续 10 次成功后 +1。
-    乘法减少（Multiplicative Decrease）：任何失败后 capacity = max(1, capacity // 2)。
+    慢启动（Slow Start）：从 capacity=1 开始，每连续 3 次成功后 +1。
+    温和减少（Subtractive Decrease）：任何失败后 capacity = max(1, capacity - 1)。
     退避（Backoff）：失败后 sleep backoff 秒（持续占用该 slot，阻止新请求涌入），
-                   初始 5s，每次失败翻倍，成功后缓慢减半，上限 120s。
+                   固定 5s，不指数增长（RCA 场景的失败多是 timeout 而非 rate limit）。
     上限：max_capacity（来自 YAML 的 concurrency 字段）。
+
+    设计理由：
+    - RCA agent 每个 sample 耗时 60-1000s，10 次成功爬一级需要 1-3 小时太慢
+    - 失败多是 timeout/agent 异常，非 API rate limit，不需要激进减半
+    - 3 次成功 +1 约 3-15 分钟到 max_capacity，更合理
     """
 
     def __init__(self, max_capacity: int) -> None:
@@ -142,22 +147,21 @@ class AdaptiveConcurrency:
             if success:
                 self._success_streak += 1
                 if (
-                    self._success_streak >= 10
+                    self._success_streak >= 3
                     and self.capacity < self.max_capacity
                 ):
                     self.capacity += 1
                     self._success_streak = 0
-                    self._backoff = max(5.0, self._backoff * 0.5)
                     logger.info(
                         f"[AIMD] Concurrency ↑ {self.capacity} "
-                        f"(backoff={self._backoff:.0f}s)"
+                        f"(streak reset, max={self.max_capacity})"
                     )
             else:
-                new_cap = max(1, self.capacity // 2)
+                new_cap = max(1, self.capacity - 1)
                 if new_cap < self.capacity:
                     logger.warning(
                         f"[AIMD] Concurrency ↓ {self.capacity} → {new_cap} "
-                        f"(backoff={self._backoff:.0f}s)"
+                        f"(failure, backoff={self._backoff:.0f}s)"
                     )
                 self.capacity = new_cap
                 self._success_streak = 0
@@ -167,7 +171,6 @@ class AdaptiveConcurrency:
         """失败时 sleep（期间继续占用 slot，限速）。"""
         if not success:
             await asyncio.sleep(self._backoff)
-            self._backoff = min(120.0, self._backoff * 2)
 
 
 async def run_batch(

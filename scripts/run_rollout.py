@@ -191,7 +191,7 @@ async def main():
         cwd=cfg["cwd"],
         timeout=cfg["timeout"],
         concurrency=cfg["concurrency"],
-        env=_clean_env(),
+        env={**_clean_env(), "RCA_MODEL": cfg["model_name"]},
         on_complete=on_complete,
     )
 
