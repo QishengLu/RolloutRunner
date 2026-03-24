@@ -4,6 +4,6 @@ cwd: /home/nn/SOTA-agents/Deep_Research
 exp_id: thinkdepthai-gpt-5.3
 model_name: gpt-5.3-chat
 agent_type: thinkdepthai
-concurrency: 3
+concurrency: 8
 timeout: 1800
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data

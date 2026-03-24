@@ -126,9 +126,9 @@ class AdaptiveConcurrency:
     - 3 次成功 +1 约 3-15 分钟到 max_capacity，更合理
     """
 
-    def __init__(self, max_capacity: int) -> None:
+    def __init__(self, max_capacity: int, initial_capacity: int = 5) -> None:
         self.max_capacity = max(1, max_capacity)
-        self.capacity = 1
+        self.capacity = min(initial_capacity, self.max_capacity)
         self._active = 0
         self._success_streak = 0
         self._backoff = 5.0
@@ -183,7 +183,7 @@ async def run_batch(
     on_complete: "Callable[[AgentResult | None], None] | None" = None,
 ) -> list[AgentResult | None]:
     ac = AdaptiveConcurrency(max_capacity=concurrency)
-    logger.info(f"[AIMD] Starting with capacity=1, max={concurrency}")
+    logger.info(f"[AIMD] Starting with capacity={ac.capacity}, max={concurrency}")
 
     async def _run(item: dict) -> AgentResult | None:
         await ac.acquire()

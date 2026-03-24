@@ -7,6 +7,6 @@ exp_id: thinkdepthai-claude-sonnet-4.6
 # model_name: kimi-k2-0905-preview
 model_name: openai/claude-sonnet-4-6
 agent_type: thinkdepthai
-concurrency: 5
+concurrency: 3
 timeout: 1800
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data
