@@ -1,11 +1,9 @@
 name: mabc
 cmd: ["/home/nn/miniconda3/envs/mabc/bin/python", "agent_runner.py"]
 cwd: /home/nn/SOTA-agents/mABC
-# exp_id: mabc-kimi-k2
-exp_id: mabc-claude-sonnet-4.6
-# model_name: kimi-k2-0905-preview
-model_name: openai/claude-sonnet-4-6
+exp_id: mabc-qwen3.5-plus
+model_name: qwen3.5-plus
 agent_type: mabc
-concurrency: 3
+concurrency: 5
 timeout: 1800
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data

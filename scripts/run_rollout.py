@@ -83,9 +83,15 @@ async def main():
     parser.add_argument("--limit", type=int, default=None, help="限制样本数（调试用）")
     parser.add_argument("--dataset-index", type=int, default=None,
                         help="指定 dataset_index，确保多 agent 冒烟测试使用同一个 case")
+    parser.add_argument("--exp_id", default=None, help="覆盖 YAML 中的 exp_id")
+    parser.add_argument("--model_name", default=None, help="覆盖 YAML 中的 model_name")
     args = parser.parse_args()
 
     cfg = load_agent_config(args.agent)
+    if args.exp_id:
+        cfg["exp_id"] = args.exp_id
+    if args.model_name:
+        cfg["model_name"] = args.model_name
     prompts = load_rca_prompts()
 
     logger.info(f"Agent: {cfg['name']}  exp_id: {cfg['exp_id']}")

@@ -1,0 +1,14 @@
+# Qwen 3.5 Plus + Metacognitive Middleware
+# Run with: ENABLE_MIDDLEWARE=1 uv run python scripts/run_rollout.py --agent thinkdepthai-qwen-mw
+# The middleware env vars must be set in the shell before launching:
+#   export ENABLE_MIDDLEWARE=1
+#   export MIDDLEWARE_DEFICIENCIES=D1,D2,D3,D4,D5  # optional, all enabled by default
+name: thinkdepthai-middleware
+cmd: ["/home/nn/SOTA-agents/Deep_Research/.venv/bin/python", "agent_runner.py"]
+cwd: /home/nn/SOTA-agents/Deep_Research
+exp_id: thinkdepthai-qwen3.5-plus-mw
+model_name: qwen3.5-plus
+agent_type: thinkdepthai-middleware
+concurrency: 5
+timeout: 3600
+data_dir: /home/nn/SOTA-agents/RolloutRunner/data

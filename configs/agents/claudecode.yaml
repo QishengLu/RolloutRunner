@@ -1,0 +1,9 @@
+name: claudecode
+cmd: ["uv", "run", "python", "agent_runner.py"]
+cwd: /home/nn/SOTA-agents/ClaudeCode
+exp_id: claudecode-qwen3.5-plus
+model_name: qwen3.5-plus
+agent_type: claudecode
+concurrency: 5
+timeout: 1800
+data_dir: /home/nn/SOTA-agents/RolloutRunner/data

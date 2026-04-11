@@ -126,7 +126,7 @@ class AdaptiveConcurrency:
     - 3 次成功 +1 约 3-15 分钟到 max_capacity，更合理
     """
 
-    def __init__(self, max_capacity: int, initial_capacity: int = 5) -> None:
+    def __init__(self, max_capacity: int, initial_capacity: int = 3) -> None:
         self.max_capacity = max(1, max_capacity)
         self.capacity = min(initial_capacity, self.max_capacity)
         self._active = 0

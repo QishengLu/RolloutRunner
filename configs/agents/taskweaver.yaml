@@ -2,9 +2,11 @@ name: taskweaver
 cmd: ["/home/nn/miniconda3/envs/taskweaver/bin/python", "agent_runner.py"]
 cwd: /home/nn/SOTA-agents/TaskWeaver
 # exp_id: taskweaver-kimi-k2
-exp_id: taskweaver-claude-sonnet-4.6
+# exp_id: taskweaver-claude-sonnet-4.6
+exp_id: taskweaver-qwen3.5-plus
 # model_name: kimi-k2-0905-preview
-model_name: openai/claude-sonnet-4-6
+# model_name: openai/claude-sonnet-4-6
+model_name: qwen3.5-plus
 agent_type: taskweaver
 concurrency: 5
 timeout: 1800

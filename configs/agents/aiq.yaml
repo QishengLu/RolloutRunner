@@ -2,9 +2,11 @@ name: aiq
 cmd: ["/home/nn/SOTA-agents/aiq/.venv/bin/python", "agent_runner.py"]
 cwd: /home/nn/SOTA-agents/aiq
 # exp_id: aiq-kimi-k2
-exp_id: aiq-claude-sonnet-4.6
+# exp_id: aiq-claude-sonnet-4.6
+exp_id: aiq-qwen3.5-plus
 # model_name: kimi-k2-0905-preview
-model_name: openai/claude-sonnet-4-6
+# model_name: openai/claude-sonnet-4-6
+model_name: qwen3.5-plus
 agent_type: aiq
 concurrency: 5
 timeout: 1800

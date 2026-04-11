@@ -1,0 +1,15 @@
+name: thinkdepthai-mw-v2
+cmd: ["/home/nn/SOTA-agents/Deep_Research/.venv/bin/python", "agent_runner.py"]
+cwd: /home/nn/SOTA-agents/Deep_Research
+exp_id: thinkdepthai-qwen3.5-plus-mw-v2
+model_name: qwen3.5-plus
+agent_type: thinkdepthai
+concurrency: 1
+timeout: 1800
+data_dir: /home/nn/SOTA-agents/RolloutRunner/data
+env:
+  ENABLE_MIDDLEWARE: "1"
+  MIDDLEWARE_DEFICIENCIES: "B1,B2,B3,B5,M1,M2,M3,M4"
+  MW_MAX_INTERVENTIONS: "5"
+  MW_CHECK_INTERVAL: "5"
+  MW_MIN_QUERIES: "10"
