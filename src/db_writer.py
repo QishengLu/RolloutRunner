@@ -50,6 +50,16 @@ def write_result(
             except (json.JSONDecodeError, TypeError):
                 meta = {}
         meta["cost_metrics"] = cost_metrics
+
+        # Merge any per-agent extra meta emitted by the agent_runner (e.g.
+        # TaskWeaver's plugin_calls_raw / taskweaver_session_id /
+        # shadow_fallback). Keys are written verbatim at meta top-level so
+        # downstream analysis tools can pick them up without agent-specific
+        # knowledge of the writer.
+        if result.extra_meta:
+            for k, v in result.extra_meta.items():
+                meta[k] = v
+
         sample.meta = meta
         flag_modified(sample, "meta")
 

@@ -16,6 +16,7 @@ class AgentResult:
     trajectory: list = field(default_factory=list)
     time_cost: float = 0.0
     usage: dict = field(default_factory=dict)  # token usage from agent
+    extra_meta: dict = field(default_factory=dict)  # optional per-agent meta (e.g. taskweaver plugin_calls_raw)
 
 
 async def run_agent(
@@ -82,12 +83,20 @@ async def run_agent(
             )
             return None
 
+        # Collect any extra fields the agent emitted beyond the standard
+        # {output, trajectory, usage}. Persisted verbatim to DB meta so
+        # per-agent forensic data (e.g. TaskWeaver plugin_calls_raw /
+        # taskweaver_session_id / shadow_fallback) survives the pipeline.
+        _STD_KEYS = {"output", "trajectory", "usage", "error"}
+        extra_meta = {k: v for k, v in result.items() if k not in _STD_KEYS}
+
         return AgentResult(
             sample_id=sample_id,
             output=result.get("output", ""),
             trajectory=result.get("trajectory", []),
             time_cost=elapsed,
             usage=result.get("usage", {}),
+            extra_meta=extra_meta,
         )
 
     except Exception as e:
