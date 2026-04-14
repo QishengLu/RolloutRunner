@@ -8,6 +8,6 @@ exp_id: taskweaver-qwen3.5-plus
 # model_name: openai/claude-sonnet-4-6
 model_name: qwen3.5-plus
 agent_type: taskweaver
-concurrency: 5
-timeout: 1800
+concurrency: 3
+timeout: null
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data
