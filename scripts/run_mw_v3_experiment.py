@@ -63,7 +63,7 @@ FAILURE_INDEXES = [
 
 RETRY_WAIT = 1800  # 30 minutes on 429
 MAX_RETRIES = 999  # effectively unlimited — keep retrying for hours
-OPENAI_BASE_URL = "https://coding.dashscope.aliyuncs.com/v1"
+OPENAI_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 
 # ── Prompts (same as run_rollout.py) ───────────────────────────────────────
 
@@ -319,7 +319,8 @@ async def main():
 
     # Step 2: Process pending samples with AIMD adaptive concurrency
     from src.runner import AdaptiveConcurrency
-    CONCURRENCY = 3
+    CONCURRENCY = 12
+    INITIAL_CAPACITY = 6
 
     for attempt in range(MAX_RETRIES + 1):
         pending = get_pending_samples()
@@ -328,7 +329,7 @@ async def main():
             break
 
         logger.info(f"Attempt {attempt + 1}: {len(pending)} samples pending")
-        ac = AdaptiveConcurrency(max_capacity=CONCURRENCY)
+        ac = AdaptiveConcurrency(max_capacity=CONCURRENCY, initial_capacity=INITIAL_CAPACITY)
         logger.info(f"[AIMD] Starting with capacity={ac.capacity}, max={CONCURRENCY}")
 
         hit_429 = False
