@@ -1,10 +1,9 @@
 name: thinkdepthai
 cmd: ["/home/nn/SOTA-agents/Deep_Research/.venv/bin/python", "agent_runner.py"]
 cwd: /home/nn/SOTA-agents/Deep_Research
-exp_id: thinkdepthai-qwen3.5-plus
-model_name: qwen3.5-plus
+exp_id: thinkdepthai-qwen3.6-plus
+model_name: qwen-3.6-plus-2026-04-02
 agent_type: thinkdepthai
-# concurrency: 8
-concurrency: 16
-timeout: 1800
+concurrency: 3
+timeout: null
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data

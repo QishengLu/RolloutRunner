@@ -188,10 +188,17 @@ async def run_batch(
     cwd: str,
     timeout: float,
     concurrency: int,
+    initial_concurrency: int | None = None,
     env: dict[str, str] | None = None,
     on_complete: "Callable[[AgentResult | None], None] | None" = None,
 ) -> list[AgentResult | None]:
-    ac = AdaptiveConcurrency(max_capacity=concurrency)
+    import os as _os
+    _env_initial = _os.environ.get("AIMD_INITIAL_CAPACITY")
+    _init_cap = int(_env_initial) if _env_initial else (initial_concurrency or 3)
+    ac = AdaptiveConcurrency(
+        max_capacity=concurrency,
+        initial_capacity=_init_cap,
+    )
     logger.info(f"[AIMD] Starting with capacity={ac.capacity}, max={concurrency}")
 
     async def _run(item: dict) -> AgentResult | None:
@@ -201,7 +208,7 @@ async def run_batch(
             result = await run_agent(
                 sample_id=item["id"],
                 payload=item["payload"],
-                cmd=cmd,
+                cmd=item.get("cmd", cmd),
                 cwd=cwd,
                 timeout=timeout,
                 env=env,

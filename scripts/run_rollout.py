@@ -85,6 +85,8 @@ async def main():
                         help="指定 dataset_index，确保多 agent 冒烟测试使用同一个 case")
     parser.add_argument("--exp_id", default=None, help="覆盖 YAML 中的 exp_id")
     parser.add_argument("--model_name", default=None, help="覆盖 YAML 中的 model_name")
+    parser.add_argument("--log-dir", default=None,
+                        help="为每个 sample 写独立日志文件到此目录（如 logs/thinkdepthai-4.6）")
     args = parser.parse_args()
 
     cfg = load_agent_config(args.agent)
@@ -109,6 +111,12 @@ async def main():
         logger.warning("No pending samples found, exiting.")
         return
 
+    # 准备 per-sample 日志目录
+    log_dir = args.log_dir
+    if log_dir:
+        os.makedirs(log_dir, exist_ok=True)
+        logger.info(f"Per-sample logs will be written to: {log_dir}")
+
     tasks = []
     for s in samples:
         # 从 augmented_question 提取 data_dir（由 RCAgentEval preprocess 嵌入）
@@ -116,12 +124,15 @@ async def main():
         data_dir = m.group(1) if m else ""
         if not data_dir:
             logger.warning(f"[sample {s.id}] 无法从 augmented_question 提取 data_dir，留空")
-        tasks.append(
-            {
-                "id": s.id,
-                "payload": build_payload(s.augmented_question, prompts, data_dir),
-            }
-        )
+        task = {
+            "id": s.id,
+            "payload": build_payload(s.augmented_question, prompts, data_dir),
+        }
+        # 为每个 sample 生成独立 --log-file 参数
+        if log_dir:
+            log_file = os.path.join(log_dir, f"idx_{s.dataset_index}_sample_{s.id}.log")
+            task["cmd"] = cfg["cmd"] + ["--log-file", log_file]
+        tasks.append(task)
 
     # 逐个写入 DB 的回调（线程安全计数 + 用量累计）
     lock = threading.Lock()
@@ -197,6 +208,7 @@ async def main():
         cwd=cfg["cwd"],
         timeout=cfg["timeout"],
         concurrency=cfg["concurrency"],
+        initial_concurrency=cfg.get("initial_concurrency"),
         env={**_clean_env(), "RCA_MODEL": cfg["model_name"]},
         on_complete=on_complete,
     )

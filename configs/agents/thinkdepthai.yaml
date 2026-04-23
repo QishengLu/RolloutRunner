@@ -2,15 +2,16 @@ name: thinkdepthai
 cmd: ["/home/nn/SOTA-agents/Deep_Research/.venv/bin/python", "agent_runner.py"]
 cwd: /home/nn/SOTA-agents/Deep_Research
 # exp_id: thinkdepthai-kimi-k2
-# exp_id: thinkdepthai-claude-sonnet-4.6
+exp_id: thinkdepthai-claude-sonnet-4.6
 # exp_id: thinkdepthai-gpt-5.4
-exp_id: thinkdepthai-qwen3.5-plus
+# exp_id: thinkdepthai-qwen3.5-plus
 # model_name: doubao-seed-2-0-pro-260215
 # model_name: kimi-k2-0905-preview
-# model_name: openai/claude-sonnet-4-6
+model_name: claude-sonnet-4-6
 # model_name: gpt-5.4
-model_name: qwen3.5-plus
+# model_name: qwen3.5-plus
 agent_type: thinkdepthai
-concurrency: 3
+concurrency: 10
+initial_concurrency: 6
 timeout: 1800
 data_dir: /home/nn/SOTA-agents/RolloutRunner/data
